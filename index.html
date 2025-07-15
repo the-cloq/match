@@ -35,7 +35,7 @@
     responseDiv.textContent = 'Thinking...';
 
     try {
-      const res = await fetch('https://your-backend-url.onrender.com/api/message', {
+      const res = await fetch('https://ai-match-eszi.onrender.com/api/message', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message, mode: 'slow-match' }) // example mode
