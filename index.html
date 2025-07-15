@@ -1,17 +1,56 @@
 <!DOCTYPE html>
-<html lang="="en">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Choose Your Love Path</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>AI Dating Assistant Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; }
+    textarea { width: 100%; height: 100px; }
+    button { padding: 0.5rem 1rem; margin-top: 1rem; }
+    #response { margin-top: 1rem; white-space: pre-wrap; background: #f4f4f4; padding: 1rem; border-radius: 5px; }
+  </style>
 </head>
 <body>
-  <h1>Choose Your Love Path</h1>
-  <div class="path-buttons">
-    <a href="blind-chat.html">💬 Blind Chat</a>
-    <a href="wingperson.html">🧠 AI Wingperson</a>
-    <a href="slow-match.html">🕊️ Slow Match</a>
-  </div>
+
+<h1>AI Dating Assistant Demo</h1>
+
+<label for="message">Enter your message:</label>
+<textarea id="message" placeholder="Type something..."></textarea>
+<br />
+<button id="sendBtn">Send</button>
+
+<div id="response"></div>
+
+<script>
+  const sendBtn = document.getElementById('sendBtn');
+  const messageInput = document.getElementById('message');
+  const responseDiv = document.getElementById('response');
+
+  sendBtn.addEventListener('click', async () => {
+    const message = messageInput.value.trim();
+    if (!message) {
+      responseDiv.textContent = 'Please enter a message.';
+      return;
+    }
+    responseDiv.textContent = 'Thinking...';
+
+    try {
+      const res = await fetch('https://your-backend-url.onrender.com/api/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, mode: 'slow-match' }) // example mode
+      });
+
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
+      const data = await res.json();
+      responseDiv.textContent = data.reply || 'No reply received.';
+    } catch (err) {
+      responseDiv.textContent = 'Something went wrong. Please try again.';
+      console.error(err);
+    }
+  });
+</script>
+
 </body>
 </html>
